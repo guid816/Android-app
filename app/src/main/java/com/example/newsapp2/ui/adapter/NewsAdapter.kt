@@ -2,8 +2,10 @@ package com.example.newsapp2.ui.adapter
 
 import android.content.Intent
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.newsapp2.databinding.ItemNewsBinding
 import com.example.newsapp2.model.NewsItem
 import com.example.newsapp2.ui.news.NewsActivity
@@ -36,10 +38,19 @@ class NewsAdapter(
             putExtra("time", news.time)
             putExtra("description", news.description)
             putExtra("url", news.url)
+            putExtra("imageUrl", news.imageUrl)
         }
 
+        val cover = holder.binding.ivCover
         if (news.imageUrl.isEmpty()) {
-            holder.binding.ivCover.visibility = android.view.View.GONE
+            Glide.with(cover).clear(cover)
+            cover.visibility = View.GONE
+        } else {
+            cover.visibility = View.VISIBLE
+            Glide.with(cover)
+                .load(news.imageUrl)
+                .centerCrop()
+                .into(cover)
         }
 
         holder.itemView.setOnClickListener {

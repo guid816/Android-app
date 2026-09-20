@@ -17,6 +17,7 @@ fragmentKtx = "1.8.2"
 retrofit = "2.9.0"
 okhttp-logging = "4.12.0"
 room = "2.6.1"
+glide = "4.16.0"
 ksp = "2.0.21-1.0.25"
 
 [libraries]
@@ -42,6 +43,8 @@ okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-i
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+
+glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -62,6 +62,7 @@ dependencies {
     implementation(libs.retrofit.converter.gson)
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
+    implementation(libs.glide)
     ksp(libs.room.compiler)
     debugImplementation(libs.okhttp.logging.interceptor)
     testImplementation(libs.junit)
