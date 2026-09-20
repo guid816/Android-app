@@ -4,6 +4,9 @@ import com.example.newsapp2.model.Category
 import com.example.newsapp2.model.NewsItem
 import com.example.newsapp2.model.TianNewsItem
 import com.example.newsapp2.network.RetrofitClient
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 
 
 
@@ -31,6 +34,28 @@ class NewsRepository {
             category = category
         )
         return response.result?.newslist?.map { it.toNewsItem() } ?: emptyList()
+    }
+
+    suspend fun searchNews(keyword: String): List<NewsItem> {
+        val query = keyword.trim()
+        if (query.isEmpty()) return emptyList()
+
+        val all = coroutineScope {
+            getCategories().map { category ->
+                async {
+                    try {
+                        getNewsList(category.id)
+                    } catch (_: Exception) {
+                        emptyList()
+                    }
+                }
+            }.awaitAll().flatten()
+        }
+
+        return all.distinctBy { it.id }.filter { news ->
+            news.title.contains(query, ignoreCase = true) ||
+                news.description.contains(query, ignoreCase = true)
+        }
     }
 
     private fun TianNewsItem.toNewsItem() = NewsItem(
